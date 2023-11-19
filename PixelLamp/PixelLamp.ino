@@ -3,6 +3,7 @@
 // Code to run 8x8 LED matrix panel
 // Uses 8xSM74hc595
 // Uses LOLIN(WEMOS) D1 mini
+// In part based off https://randomnerdtutorials.com/esp32-async-web-server-espasyncwebserver-library/
 
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
