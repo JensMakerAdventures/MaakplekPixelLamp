@@ -1,0 +1,91 @@
+<!DOCTYPE HTML><html>
+
+  <head>
+    <title>Maakplek Pixel Lamp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+	
+      body { font-family: Arial; text-align: center; margin:0px auto; padding-top: 30px;}
+      .button {
+	  background-color: #195B6A; border: none;  color: white; padding: 10px 10px;
+
+      }  
+      .button:hover {background-color: #1f2e45}
+      .button:active {
+        background-color: #1f2e45;
+        box-shadow: 0 4px #666;
+        transform: translateY(2px);
+      }
+	  .newspaper {
+		-webkit-column-count: 8; /* Chrome, Safari, Opera */
+		-moz-column-count: 8; /* Firefox */
+		column-count: 8;
+		width: 14%;
+		margin: auto;
+		padding: 10px 10px;
+	  }
+    </style>
+  </head>
+  <body>
+    <h1>Maakplek Pixel Lamp</h1>
+	<div><a href="https://github.com/JensMakerAdventures/MaakplekPixelLamp" target="_blank">Link to the GitHub project!</a></div>
+	<br>
+	<body onload="createCheckBoxes();">
+    <button class="button" onmousedown="allOn();">Turn all LEDS on</button>
+	<button class="button" onmousedown="allOff();">Turn all LEDS off</button>
+  <script>
+   function allOn()
+   {
+     let checkboxes = document.querySelectorAll('input[name="gridBoxes"]');
+     checkboxes.forEach(box => {
+        box.checked = true;
+      });
+	 var xhr = new XMLHttpRequest();
+     xhr.open("GET", "/allOn", true);
+     xhr.send();
+   }
+
+   function allOff()
+   {
+     let checkboxes = document.querySelectorAll('input[name="gridBoxes"]');
+     checkboxes.forEach(box => {
+        box.checked = false;
+      });
+	 var xhr = new XMLHttpRequest();
+     xhr.open("GET", "/allOff", true);
+     xhr.send();
+   }
+   
+   function createCheckBoxes() 
+   {
+     for (let row = 0; row < 8; row++) 
+	 {
+	  var div = document.createElement("div");
+	  div.width= "14%";
+	  div.margin="auto";
+	  div.style.columnCount="8";
+	  document.body.appendChild(div);
+	  for (let col = 0; col < 8; col++) 
+	  {
+	    var x = document.createElement("INPUT");
+		x.setAttribute("name", "gridBoxes");
+	    x.setAttribute("type", "checkbox");
+		x.setAttribute("row", row.toString());
+		x.setAttribute("column", col.toString());
+		x.setAttribute("state", "1");
+		x.setAttribute("onmousedown","toggleCheckbox(this)");
+		//x.setAttribute("checked", false); // Can be used to initialize state from hardware
+	    document.body.appendChild(x);
+	  }
+	 }
+   }
+
+   function toggleCheckbox(x) {
+     var xhr = new XMLHttpRequest();
+	 var fatLink = "/update?row="+x.getAttribute("row")+"&column=" + x.getAttribute("column") + "&state="+!x.checked;
+     xhr.open("GET", fatLink, true);
+     xhr.send();
+   }
+  </script>
+  </body>
+</html>
